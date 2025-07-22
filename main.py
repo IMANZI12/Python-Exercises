@@ -38,6 +38,8 @@ print(f'User\'s choice: {options[userschoice-1]}')
 def judge(a, b):
     if a == b:
         return 'Draw'
+    elif b > 2 or b < 0:
+        return 'Invalid Option'
     elif b > a and b - a == 1:
         return 'You won'
     elif a > b and a - b == 1:
