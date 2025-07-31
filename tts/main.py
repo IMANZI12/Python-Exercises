@@ -1,6 +1,7 @@
-import keyboard
-import pyttsx3
+# import keyboard
 from PyPDF2 import PdfReader
+import pyttsx3
+
 import time
 
 
@@ -13,10 +14,10 @@ def getalline(path):
 def speaking(line):
     if not line.strip():
         return
-    print(f"{line}  {len(line)}")
+    print(f"{line}")
 
     engine = pyttsx3.init()
-    engine.setProperty('rate', 200)
+    engine.setProperty('rate', 190)
     engine.say(line)
     engine.runAndWait()
     engine.stop()

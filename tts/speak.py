@@ -1,21 +1,30 @@
-import pyttsx3
+from gtts import gTTS
+from tempfile import NamedTemporaryFile
+from playsound import playsound
+import os
 
+tts = gTTS("""Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the 
+industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it 
+to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, 
+remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem 
+Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem 
+Ipsum.Why do we use it? It is a long established fact that a reader will be distracted by the readable content of a page 
+when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of 
+letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop 
+publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem 
+ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by 
+accident, sometimes on purpose (injected humour and the like).""",
+           lang='en', tld='us')
 
-def onStart(name):
-    print('starting', name)
+# Create temp file but don't keep it open or locked
+with NamedTemporaryFile(delete=False, suffix=".mp3") as fp:
+    temp_file_path = fp.name  # Save the file path
 
+# Now it's safe to write to it using gTTS
+tts.save(temp_file_path)
 
-def onWord(name, location, length):
-    print('word', name, location, length)
+# Play the saved MP3
+playsound(temp_file_path)
 
-
-def onEnd(name, completed):
-    print('finishing', name, completed)
-
-
-engine = pyttsx3.init()
-engine.connect('started-utterance', onStart)
-engine.connect('started-word', onWord)
-engine.connect('finished-utterance', onEnd)
-engine.say('The quick brown fox jumped over the lazy dog.')
-engine.runAndWait()
+# Delete the temporary file after playing
+os.remove(temp_file_path)
